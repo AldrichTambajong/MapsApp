@@ -1,16 +1,33 @@
 import React from 'react';
-import {Map}
+import {Map, Marker, GoogleApiWrapper } from "google-maps-react"
 
-function Home() {
+function Home({google,locations=[]}) {
   return (
-      <div>
-          <h1>My Google Map</h1>
-          <div id="map"></div>
-          <div id="demo"></div>
-          <script>
-          </script>
-      </div>
-  );
-}
+    <div>
+        <Map
+            google={google}
+            containerStyle={{
+                position: "static",
+                width: "100%",
+                height: "100%"
+            }}
+            style={{
+                width: "80%",
+                height: "400px"
+            }}
+            center={locations[0]}
+            initialCenter={locations[0]}
+            zoom={locations.length === 1 ? 18 : 13}
+            disableDefaultUI={true}
+        >
+            {locations.map(
+                coords => <Marker position={coords} />
+            )}
 
-export default Home;
+        </Map>
+    </div>
+    );
+}
+export default GoogleApiWrapper({
+    apiKey: 'AIzaSyDNlHEFM13UfwMbeFel8ofV41RIki4nabs'
+})(Home);
