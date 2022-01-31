@@ -2,6 +2,7 @@ import React from 'react';
 import {Map, Marker, GoogleApiWrapper } from "google-maps-react"
 
 function Home({google,locations=[]}) {
+    navigator.geolocation.getCurrentPosition()
   return (
     <div>
         <Map
@@ -23,7 +24,7 @@ function Home({google,locations=[]}) {
             {locations.map(
                 coords => <Marker position={coords} />
             )}
-
+            
         </Map>
     </div>
     );
