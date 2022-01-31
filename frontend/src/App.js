@@ -4,7 +4,7 @@ import {BrowserRouter as Router, Route, Routes, Navigate} from "react-router-dom
 import Cover from './components/Cover';
 import Home from './components/Home'
 
-function App() {
+function App({google}) {
   return (
     <div className="App">
       <Router>
@@ -16,7 +16,7 @@ function App() {
 
           <Route path='/cover' element={<Cover></Cover>}></Route>
 
-          <Route path='/home' element={<Home ></Home>}></Route>
+          <Route path='/home' element={<Home google={google} ></Home>}></Route>
         </Routes>
       </Router>
     </div>
