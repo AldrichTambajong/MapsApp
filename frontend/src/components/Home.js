@@ -1,9 +1,11 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState} from 'react';
 import {Map, Marker, GoogleApiWrapper } from "google-maps-react"
 
 function Home(props) {
     var locations =[]
+    var center = {}
+    // const [apiKey,setApiKey] = getKey.current
     const [latitude,setlatitude] = useState();
     const [longitude,setLongitude] = useState();
 
@@ -13,10 +15,10 @@ function Home(props) {
             setLongitude(position.coords.longitude)
         }
     )
-
-    locations.push({'lat':latitude,'lng':longitude})
-    console.log(latitude)
-    console.log(longitude)
+    center = {'lat':latitude,'lng':longitude}
+    // locations.push({'lat':latitude,'lng':longitude})
+    console.log("latitude is: ",latitude)
+    console.log("longitude is:",longitude)
   return (
     <div>
         <Map
@@ -35,11 +37,12 @@ function Home(props) {
                 marginRight: "auto",
                 marginLeft: "auto"
             }}
-            center={{'lat':latitude, 'lng':longitude}}
-            initialCenter={{'lat':latitude, 'lng':longitude}}
-            zoom={locations.length === 1 ? 18 : 13}
+            center={center}
+            initialCenter={center}
+            zoom={locations.length === 1 ? 18 : 16}
             disableDefaultUI={true}
         >
+            <Marker position={center}></Marker>
             {locations.map(
                 coords => <Marker position={coords} />
             )}
@@ -48,6 +51,8 @@ function Home(props) {
     </div>
     );
 }
-export default GoogleApiWrapper({
-    apiKey: 'AIzaSyDNlHEFM13UfwMbeFel8ofV41RIki4nabs'
-})(Home);
+export default GoogleApiWrapper(
+    props => ({
+        apiKey: (props.apiKey)
+    }
+))(Home);
