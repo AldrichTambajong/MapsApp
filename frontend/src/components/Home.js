@@ -1,31 +1,26 @@
 import React from 'react';
-import { useState, useEffect} from 'react';
+import { useState, useEffect, useRef} from 'react';
 import {Map, Marker, GoogleApiWrapper } from "google-maps-react"
-import { DirectionsRenderer, Polyline} from '@react-google-maps/api';
+import {Polyline} from '@react-google-maps/api';
+import polyline from '@mapbox/polyline';
 
 function Home(props) {
     var locations =[]
-    var center = {}
+    var center = useRef()
     // const [apiKey,setApiKey] = getKey.current
-    const [latitude,setlatitude] = useState();
-    const [longitude,setLongitude] = useState();
     const [origin,setOrigin] = useState();
     const [dest,setDest] = useState();
-    const triangleCoords = [
-        {lat: 34.1185227, lng: -83.9374116},
-        {lat:  33.759678, lng: -84.114711}
-      ];
+    const [route,setRoute] = useState();
 
-    navigator.geolocation.getCurrentPosition(
-        function(position) {
-            setlatitude(position.coords.latitude)
-            setLongitude(position.coords.longitude)
-        }
-    )
-    center = {'lat':latitude,'lng':longitude}
-    // locations.push({'lat':latitude,'lng':longitude})
-    console.log("latitude is: ",latitude)
-    console.log("longitude is:",longitude)
+    // navigator.geolocation.getCurrentPosition(
+    //     function(position) {
+    //         var userLoc = {'lat':position.coords.latitude,'lng':position.coords.longitude}
+    //     console.log(userLoc)
+    //     center.current = userLoc
+    //     console.log("latitude is: ",center.current.latitude)
+    //     console.log("longitude is:",center.current.longitude)
+    //     }
+    // )
 
     function submit(e){
         e.preventDefault()
@@ -33,17 +28,26 @@ function Home(props) {
             'origin':origin,
             'destination':dest
         }
+        console.log(path)
         fetch('/directions',{
             method:'POST',
-            haders:{
+            headers:{
                 'Content-Type':'application/json'
             },
             body:JSON.stringify(path)
         })
-        .then(response => response.json)
-        .then(data => {
-            console.log(data)
-            
+        .then(response => response.json())
+        .then((data) => {
+            let polylineCoords = polyline.decode(data.points)
+            let newCoords = polylineCoords.map((point) =>(
+                {
+                    lat:point[0],
+                    lng:point[1]
+                }
+            ))
+            console.log(newCoords)
+            setRoute(newCoords)
+            console.log(route)
         })
     }
   return (
@@ -57,23 +61,23 @@ function Home(props) {
                 height: "100%"
             }}
             style={{
-                maxWidth:"65%",
-                width: "800px",
+                maxWidth:"45%",
+                minWidth: "800px",
                 height: "400px",
                 display: "inherit",
                 overflow: "hidden",
+                marginTop:"10px",
                 marginRight: "auto",
                 marginLeft: "auto"
             }}
-            center={center}
-            initialCenter={center}
+            center={props.userCoords}
+            initialCenter={props.userCoords}
             zoom={locations.length === 1 ? 18 : 15}
             disableDefaultUI={true}
             
         >
-            <Polyline directions={triangleCoords} path={triangleCoords}></Polyline>
-            {/* <DirectionsRenderer directions={directions}></DirectionsRenderer> */}
-            <Marker position={center}></Marker>
+            <Polyline path={route}  strokeColor={'red'}></Polyline>
+            <Marker position={props.userCoords}></Marker>
             {locations.map(
                 coords => <Marker position={coords} />
             )}
@@ -84,7 +88,7 @@ function Home(props) {
             onChange={(e) => setOrigin(e.target.value)}></input>
             <input type="text" name="destination" placeholder='Destination' value={dest}
             onChange={(e) => setDest(e.target.value)}></input>
-            <input type="submit" value="submit"></input>
+            <input type="submit" value="Navigate"></input>
         </form>
     </div>
     );

@@ -1,17 +1,8 @@
-import {React,useEffect} from 'react';
+import {React,useEffect,useRef} from 'react';
 import {useNavigate} from "react-router-dom"
 
-function Cover(props) {
+function Cover() {
     let path = useNavigate()
-
-    useEffect(()=> {
-        fetch('/requestKey')
-        .then(response => response.json())
-        .then(data =>{
-            sessionStorage.setItem("apiKey",data.accessKey)
-            props.setApiKey(sessionStorage.getItem("apiKey",data.accessKey))
-        })
-    })
   return (
       <div>
           <div>
