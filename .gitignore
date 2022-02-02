@@ -1,10 +1,10 @@
 #Root
-test.html
-test.py
-index.js
+./test.html
+/test.py
+/index.js
 
 
 #Backend
-Backend/.env
-Backend/.text.txt
+.env
+.text.txt
 
