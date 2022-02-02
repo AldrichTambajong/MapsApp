@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+.route{
+  border: solid;
+  border-color: black;
+  margin-top: 500px;
+  max-width: 45%;
+  min-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+
+}
