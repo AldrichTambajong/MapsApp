@@ -1,4 +1,4 @@
-import googlemaps,os,flask
+import googlemaps,os,flask,json
 from flask.json import jsonify
 from pprint import pprint
 from dotenv import load_dotenv
@@ -36,9 +36,8 @@ def directions():
         route = {
             "points": response[0]["overview_polyline"]["points"]
         }
-
-    return jsonify(route)
-
+        pprint(data.get("destination"))
+        return jsonify(route)
 
 
 app.run(debug=True,host="0.0.0.0", port=int(os.environ.get("PORT", 6000)))
