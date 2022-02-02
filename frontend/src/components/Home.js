@@ -1,12 +1,11 @@
 import React from 'react';
-import { useState, useEffect, useRef} from 'react';
+import { useState} from 'react';
 import {Map, Marker, GoogleApiWrapper } from "google-maps-react"
 import {Polyline} from '@react-google-maps/api';
 import polyline from '@mapbox/polyline';
 
 function Home(props) {
     var locations =[]
-    var center = useRef()
     // const [apiKey,setApiKey] = getKey.current
     const [origin,setOrigin] = useState();
     const [dest,setDest] = useState();
