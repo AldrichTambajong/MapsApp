@@ -7,6 +7,7 @@ import Home from './components/Home'
 function App({google}) {
   const [apiKey,setApiKey] = useState(sessionStorage.getItem("apiKey"))
   const [userCoords,setUserCoords] = useState(JSON.parse(sessionStorage.getItem("userCoords")))
+  
   useEffect(()=> {
     navigator.geolocation.getCurrentPosition(
       function(position) {

@@ -3,10 +3,10 @@ import { useState} from 'react';
 import {Map, Marker, GoogleApiWrapper } from "google-maps-react"
 import {Circle, Polyline} from '@react-google-maps/api';
 import polyline from '@mapbox/polyline';
+import { style } from '../style/map_style'; //Map Component can't use className
 
 function Home(props) {
     var locations =[]
-    // const [apiKey,setApiKey] = getKey.current
     const [origin,setOrigin] = useState();
     const [dest,setDest] = useState();
     const [route,setRoute] = useState();
@@ -50,23 +50,14 @@ function Home(props) {
                 width: "100%",
                 height: "100%"
             }}
-            style={{
-                maxWidth:"45%",
-                minWidth: "800px",
-                height: "400px",
-                display: "inherit",
-                overflow: "hidden",
-                marginTop:"10px",
-                marginRight: "auto",
-                marginLeft: "auto"
-            }}
+            style={style}
             center={props.userCoords}
             initialCenter={props.userCoords}
             zoom={locations.length === 1 ? 18 : 15}
             disableDefaultUI={true}
             
         >
-            <Polyline path={route}  strokeColor={'red'}></Polyline>
+            <Polyline path={route} ></Polyline>
             <Marker position={props.userCoords} Circle>
             </Marker>
             {locations.map(
@@ -82,7 +73,7 @@ function Home(props) {
             <input type="submit" value="Navigate"></input>
         </form>
         <input type="number" name = "radius" placeholder='radius in meters' onChange={(e) => setRadius(parseFloat(e.target.value))} className='radius'></input>
-        <h1>{typeof(radius)}</h1>
+        <h1 className='test'>{typeof(radius)}</h1>
     </div>
     );
 }
