@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState} from 'react';
 import {Map, Marker, GoogleApiWrapper } from "google-maps-react"
-import {Polyline} from '@react-google-maps/api';
+import {Circle, Polyline} from '@react-google-maps/api';
 import polyline from '@mapbox/polyline';
 
 function Home(props) {
@@ -10,16 +10,7 @@ function Home(props) {
     const [origin,setOrigin] = useState();
     const [dest,setDest] = useState();
     const [route,setRoute] = useState();
-
-    // navigator.geolocation.getCurrentPosition(
-    //     function(position) {
-    //         var userLoc = {'lat':position.coords.latitude,'lng':position.coords.longitude}
-    //     console.log(userLoc)
-    //     center.current = userLoc
-    //     console.log("latitude is: ",center.current.latitude)
-    //     console.log("longitude is:",center.current.longitude)
-    //     }
-    // )
+    const [radius,setRadius] = useState(0);
 
     function submit(e){
         e.preventDefault()
@@ -76,11 +67,12 @@ function Home(props) {
             
         >
             <Polyline path={route}  strokeColor={'red'}></Polyline>
-            <Marker position={props.userCoords}></Marker>
+            <Marker position={props.userCoords} Circle>
+            </Marker>
             {locations.map(
                 coords => <Marker position={coords} />
             )}
-            
+            <Circle center={props.userCoords} radius={radius} options={{strokeColor:"#ff0000"}}></Circle>
         </Map>
         <form method ="POST" className="route" onSubmit={(e) => submit(e)}>
             <input type="text" name="origin" placeholder='Starting location' value={origin}
@@ -89,6 +81,8 @@ function Home(props) {
             onChange={(e) => setDest(e.target.value)}></input>
             <input type="submit" value="Navigate"></input>
         </form>
+        <input type="number" name = "radius" placeholder='radius in meters' onChange={(e) => setRadius(parseFloat(e.target.value))} className='radius'></input>
+        <h1>{typeof(radius)}</h1>
     </div>
     );
 }
