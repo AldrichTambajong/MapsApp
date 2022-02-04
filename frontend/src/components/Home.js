@@ -72,7 +72,7 @@ function Home(props) {
             onChange={(e) => setDest(e.target.value)}></input>
             <input type="submit" value="Navigate"></input>
         </form>
-        <input type="number" name = "radius" placeholder='radius in meters' onChange={(e) => setRadius(parseFloat(e.target.value))} className='radius'></input>
+        <input type="number" name = "radius" placeholder='Radius (mi)' onChange={(e) => setRadius(parseFloat(e.target.value*1609.34))} className='radius'></input>
         <h1 className='test'>{typeof(radius)}</h1>
     </div>
     );
