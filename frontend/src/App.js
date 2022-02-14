@@ -2,7 +2,8 @@ import './App.css';
 import {React,useState,useEffect} from 'react';
 import {BrowserRouter as Router, Route, Routes, Navigate} from "react-router-dom"
 import Cover from './components/Cover';
-import Home from './components/Home'
+import Home from './components/Home';
+import Login from './components/Login';
 
 function App({google}) {
   const [apiKey,setApiKey] = useState(sessionStorage.getItem("apiKey"))
@@ -34,9 +35,9 @@ function App({google}) {
 
         </nav>
         <Routes>
-          <Route path='' element={<Navigate to="/cover"></Navigate>}></Route>
+          <Route path='' element={<Navigate to="/login"></Navigate>}></Route>
 
-          <Route path='/cover' element={<Cover setUserCoords ={setUserCoords} setApiKey={setApiKey}></Cover>}></Route>
+          <Route path='/login' element={<Login></Login>}></Route>
 
           <Route path='/home' element={<Home google={google} apiKey={apiKey} userCoords={userCoords}></Home>}></Route>
         </Routes>
